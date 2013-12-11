@@ -1,0 +1,7 @@
+exthttp.nim is a Nimrod module with more procs for HTTP requests, to add to the existing procs in the httpclient module in the standard library.
+
+exthttp.nim contains procs for making HTTP requests and working with URL parameters.
+
+See the documentation.html file for more information.
+
+Code released under the MIT open source license.
