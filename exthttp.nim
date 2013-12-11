@@ -1,4 +1,4 @@
-# Nimrod module with more HTTP functions.
+# Nimrod module with more HTTP procs.
 
 # Written by Adam Chesak.
 # Code released under the MIT open source license.
@@ -6,6 +6,7 @@
 # Import modules.
 import httpclient
 import strtabs
+import strutils
 
 
 proc head*(url : string, extraHeaders : string = "", body : string = "", timeout : int = -1, userAgent = defUserAgent, proxy : PProxy = nil): TResponse = 
@@ -62,10 +63,21 @@ proc options*(url : string, extraHeaders : string = "", body : string = "", time
     return request(url, httpOPTIONS, extraHeaders = extraHeaders, body = body, timeout = timeout, userAgent = userAgent, proxy = proxy)
 
 
-proc createParams*(params : TStringTable): string = 
+proc createParams*(params : PStringTable): string = 
     ## Creates a parameter list.
+    
+    var paramsStr : string = ""
+    
+    for i in keys(params):
+        paramsStr &= i & "=" & params[i] & "&"
+    
+    if paramsStr.endsWith("&"):
+        paramsStr.delete(len(paramsStr), len(paramsStr))
+    
+    return paramsStr
 
 
-proc appendParams*(url : string, params : TStringTable): string = 
+proc appendParams*(url : string, params : PStringTable): string = 
     ## Creates a parameter list and appends it to the URL for use in a GET request.
-
+    
+    return url & "?" & createParams(params)
